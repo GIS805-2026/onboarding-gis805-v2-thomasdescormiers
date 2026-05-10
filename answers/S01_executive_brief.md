@@ -8,9 +8,20 @@ Pour NexaMart, je reformule la question exécutive ainsi : **quel est le revenu 
 
 ## Réponse exécutive
 
-À ce stade, NexaMart possède des données de ventes, clients, produits, magasins, canaux et dates, mais elles ne sont pas encore organisées sous forme d'entrepôt analytique fiable. La question du CEO est simple en apparence, mais elle exige de croiser une mesure de vente avec plusieurs dimensions business : catégorie, région et trimestre.
+Au dernier trimestre disponible, soit **2025 T4 comparé à 2025 T3**, les déclins les plus préoccupants sont concentrés dans `Automotive`, surtout en Ontario, au Québec et en Alberta. D'autres baisses importantes apparaissent aussi dans `Grocery` en Ontario, `Pet Supplies` en Outaouais et `Sports & Outdoors` en Colombie-Britannique.
 
-Le diagnostic principal est que les systèmes opérationnels enregistrent les transactions, mais ne rendent pas encore la réponse répétable chaque mois. La priorité est donc de construire une étoile de ventes centrée sur `fact_sales`, puis de l'utiliser pour produire une vue stable du revenu par catégorie, région et période.
+La cause principale visible dans les données est une baisse du volume vendu, pas seulement un problème de prix. Dans les cas prioritaires, les unités vendues et le nombre de commandes diminuent fortement. Par exemple, `Automotive` en Ontario perd 24 unités et 6 commandes entre T3 et T4, ce qui explique directement la baisse de revenu.
+
+Les retours et les remises peuvent aggraver certains cas, mais ils ne semblent pas être la cause principale du déclin. Les premiers indicateurs pointent davantage vers une baisse de demande ou un problème commercial régional qu'un simple problème de prix. La priorité d'investigation devrait donc être `Automotive` en Ontario, Québec et Alberta, puis `Grocery` en Ontario.
+
+| Catégorie | Région | Revenu T4 | Revenu T3 | Baisse | Variation | Signal principal |
+|---|---:|---:|---:|---:|---:|---|
+| Automotive | Ontario | 3 266,55 $ | 6 879,84 $ | -3 613,29 $ | -52,5 % | -24 unités, -6 commandes |
+| Automotive | Québec | 5 276,78 $ | 7 066,78 $ | -1 790,00 $ | -25,3 % | -12 unités, -3 commandes |
+| Automotive | Alberta | 579,82 $ | 2 361,64 $ | -1 781,82 $ | -75,4 % | -12 unités, -4 commandes |
+| Grocery | Ontario | 3 903,57 $ | 5 619,46 $ | -1 715,89 $ | -30,5 % | -20 unités, -6 commandes |
+| Pet Supplies | Outaouais | 3 300,58 $ | 4 262,35 $ | -961,77 $ | -22,6 % | -5 unités, commandes stables |
+| Sports & Outdoors | BC | 554,02 $ | 1 505,37 $ | -951,35 $ | -63,2 % | -14 unités, -3 commandes |
 
 ## Décisions de modélisation
 

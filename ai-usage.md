@@ -31,3 +31,10 @@
 - **Justification :** Cette interaction était nécessaire pour structurer le brief exécutif S01 selon les sections attendues et expliquer clairement la première question d'affaires.
 
 <!-- Ajoutez vos entrées ci-dessous -->
+
+### 2026-05-10 — Séance S01
+- **Modèle :** ChatGPT / Codex
+- **Prompt :** « Peux tu m'aider à trouver quelles catégories déclinent dans quelles régions et pourquoi? Formatte bien le tableau de résultats et met le tableau comme dernière section parmis la section "reponse executive" Aussi, peux tu ajouter une entrée dans le fichier ai usage svp? »
+- **Résultat :** L'IA a réorganisé `answers/S01_executive_brief.md` autour d'une réponse chiffrée au CEO, déplacé le tableau à la fin de la section `Réponse exécutive`, ajusté les sections de preuve, validation, risques et recommandation, puis ajouté cette entrée dans `ai-usage.md`.
+- **Validation :** J'ai vérifié que les chiffres du tableau proviennent de la requête dans `sql/sandbox/exploration.sql` et que le brief répond directement à la question du CEO.
+- **Justification :** Cette interaction était nécessaire pour transformer le brief S01 en réponse exécutive concrète, alignée avec les résultats SQL et avec la politique de traçabilité de l'usage IA.
