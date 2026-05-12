@@ -1,7 +1,8 @@
--- S02 - First SQL answer
--- CEO question: which product categories decline in which regions, by quarter?
--- Grain used: one row in fact_sales = one sold order line
---             identified by order_number + sale_line_id.
+-- S02 - Premiere reponse SQL
+-- Question du CEO : quelles categories de produits declinent dans quelles regions, par trimestre?
+-- Grain utilise : une ligne dans fact_sales = une ligne de commande vendue
+--                 identifiee par order_number + sale_line_id.
+
 
 WITH quarterly_sales AS (
     SELECT

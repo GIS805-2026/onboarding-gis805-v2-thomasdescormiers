@@ -39,7 +39,7 @@
 
 ### 2026-05-11 - Seance S02
 - **Modele :** ChatGPT / Codex
-- **Prompt :** "je reviens a mes moutons, aide moi a acoomplir la seance en te fiant a GIS805-02_lab.md"
+- **Prompt :** "En te basant sur mes requêtes SQL sous sql/dims, aide moi à créé le fichier mermaid pour visualiser les relations entre les tables"
 - **Resultat :** L'IA a cree les livrables S02: `answers/S02_executive_brief.md`, `docs/schema-v1.md`, `diagrams/schema-v1.mmd`, `sql/analysis/s02-first-answer.sql` et `docs/board-briefs/s02-star-schema.md`.
 - **Validation :** La requete SQL a ete testee en lecture seule sur `db/nexamart.duckdb` et retourne les declins par categorie, region et trimestre. Les fichiers ont ete alignes avec la rubrique S02: grain, schema Mermaid, preuve SQL et justification executive.
 - **Justification :** Cette interaction etait necessaire pour transformer la question CEO de S01 en schema en etoile documente et en preuve SQL reproductible pour la seance S02.
