@@ -43,3 +43,25 @@
 - **Resultat :** L'IA a cree les livrables S02: `answers/S02_executive_brief.md`, `docs/schema-v1.md`, `diagrams/schema-v1.mmd`, `sql/analysis/s02-first-answer.sql` et `docs/board-briefs/s02-star-schema.md`.
 - **Validation :** La requete SQL a ete testee en lecture seule sur `db/nexamart.duckdb` et retourne les declins par categorie, region et trimestre. Les fichiers ont ete alignes avec la rubrique S02: grain, schema Mermaid, preuve SQL et justification executive.
 - **Justification :** Cette interaction etait necessaire pour transformer la question CEO de S01 en schema en etoile documente et en preuve SQL reproductible pour la seance S02.
+
+### 2026-05-13 - Seance S03
+- **Modele :** ChatGPT / Codex
+- **Prompt :** "En te basant sur les consignes de la seance 3, peux-tu m'aider a identifier les livrables et expliquer quand utiliser SCD Type 1 vs Type 2?"
+- **Resultat :** L'IA a resume les livrables demandes et explique la difference entre SCD Type 1 et Type 2 dans le contexte du laboratoire.
+- **Validation :** J'ai compare les explications avec les consignes du laboratoire avant de commencer les modifications.
+- **Justification :** Cette interaction m'a aide a mieux comprendre les attentes de la seance et la logique des SCD avant l'implementation.
+
+### 2026-05-13 - Seance S03
+- **Modele :** ChatGPT / Codex
+- **Prompt :** "Type 1 overwrite les anciennes donnees tandis que Type 2 conserve l'historique avec une nouvelle ligne, c'est bien ca?"
+- **Resultat :** L'IA a confirme ma comprehension des SCD et donne un exemple simple pour chaque type.
+- **Validation :** J'ai utilise cette validation pour rediger la politique SCD et verifier la logique du script SQL.
+- **Justification :** Cette interaction etait utile pour confirmer les concepts avant de finaliser les fichiers demandes.
+
+### 2026-05-13 - Seance S03
+- **Modele :** ChatGPT / Codex
+- **Prompt :** "Peux-tu m'aider a completer les fichiers `answers/S03_executive_brief.md`, `sql/scd/type1_vs_type2_demo.sql`, `docs/scd-policy.md` et `docs/board-briefs/s03-scd.md` selon les consignes de la seance 3?"
+- **Resultat :** L'IA a aide a rediger le brief executif, la politique SCD, le brief pour le board ainsi que le script SQL comparant les comportements Type 1 et Type 2.
+- **Validation :** J'ai relu les fichiers generes et execute le script SQL pour verifier que l'historique etait bien preserve avec le SCD Type 2.
+- **Justification :** Cette interaction etait necessaire pour produire les livrables demandes et valider la demonstration des changements historiques.
+
