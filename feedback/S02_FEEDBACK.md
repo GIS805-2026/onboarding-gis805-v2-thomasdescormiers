@@ -1,6 +1,6 @@
 # Rétroaction automatisée -- S02 (Première étoile -- schéma en étoile, grain et dimensions conformes)
 
-_Générée le 2026-05-21T17:49:06+00:00 -- Run `20260521T173854Z-8262142b`_
+_Générée le 2026-05-21T20:48:06+00:00 -- Run `20260521T204029Z-63dae822`_
 
 Ce document est produit par un pipeline reproductible (vérification SQL déterministe + analyse LLM du brief et de la déclaration IA). Une revue humaine précède toujours sa publication. **À ce stade expérimental, aucune note ni étiquette de niveau n'est diffusée : l'objectif est purement formatif.**
 
@@ -15,62 +15,63 @@ _Observation technique : aucune requête SQL détectée dans le brief_
 
 **Pistes :**
 > Aucun bloc ```sql ... ``` détecté et l'extracteur LLM n'a trouvé aucune requête. Encadrez votre requête finale dans la section « Preuve » avec un bloc ```sql ... ``` pour fiabiliser l'auto-validation.
-> Extracteur LLM : Le brief décrit la requête et son fichier source mais n'inclut pas la requête SQL elle‑même à extraire.
+> Extracteur LLM : Le brief décrit la requête et indique son emplacement (sql/analysis/s02-first-answer.sql) mais n'inclut pas le SQL lui‑même à extraire.
 
 ## 2. Rétroaction pédagogique sur le brief
 
-> Le brief présente un bon schéma en étoile avec grain et dimensions conformes, des preuves d'exécution et une recommandation claire pour investiguer les baisses de vente (Automotive). Pour atteindre l'excellence complète, détaillez le traitement des cas limites, fournissez l'historique git/notes IA et ajoutez des artefacts facilitant la reproduction immédiate.
+> Excellent brief : le grain, le schéma en étoile et les dimensions conformes sont clairement exposés et la recommandation exécutive priorise les baisses à investiguer. Améliorer la traçabilité (commits, note IA/validation humaine) et ajouter un petit extrait SQL/DDL pour faciliter la revue et la reproductibilité immédiate.
 
 ### Observations par dimension
 
 **Model quality**
-- Observation : Le brief précise le grain («une ligne dans fact_sales représente une ligne de commande identifiée par order_number et sale_line_id») et décrit une étoile centrée sur fact_sales avec dim_date, dim_product et dim_store conformes.
-- Piste d'amélioration : Ajouter un diagramme exporté (PNG/SVG) ou DDL succinct pour montrer les clés et types de colonnes afin de lever toute ambiguïté structurelle.
+- Observation : Le brief précise le grain («une ligne dans fact_sales = ligne de commande») et décrit une étoile avec fact_sales jointe à dim_product, dim_store et dim_date pour calculer revenu par catégorie, région et trimestre.
+- Piste d'amélioration : Ajouter un petit diagramme inline ou un extrait DDL montrant clés primaires/étrangères pour lever toute ambiguïté sur les jointures.
 
 **Validation quality**
-- Observation : L'auteur indique que la requête a été exécutée dans DuckDB, que sql/analysis/s02-first-answer.sql calcule SUM(f.line_total) et compare 2025 T4 à T3 avec LAG, et que run_checks.py retourne 32 PASS, 0 FAIL.
-- Piste d'amélioration : Documenter et montrer explicitement le traitement des cas limites (NULLs, valeurs manquantes, vérification des agrégations pour valeurs non additives) et fournir la requête d'exemple et ses résultats bruts.
+- Observation : La section Validation indique que la requête s'est exécutée dans DuckDB, que le script sql/analysis/s02-first-answer.sql calcule SUM(f.line_total) et compare Q/Q avec LAG, et que run_checks.py retourne 32 PASS, 0 FAIL.
+- Piste d'amélioration : Joindre l'extrait SQL principal et un petit échantillon de sortie (quelques lignes de résultat) pour faciliter la revue sans exécuter le pipeline.
 
 **Executive justification**
-- Observation : La section 'Reponse executive' explique en langage d'affaires que le schéma étoile rend la question répétable, identifie les catégories/régions en baisse et recommande d'enquêter prioritairement sur Automotive en Ontario/Québec/Alberta.
-- Piste d'amélioration : Ajouter une recommandation chiffrée claire (par ex. seuils et ordre d'investigation) et un impact business attendu pour prioriser les actions du board.
+- Observation : La réponse exécutive explique en langage business que l'étoile permet la répétabilité mensuelle et recommande d'investiguer en priorité les catégories/régions avec baisses (ex. Automotive Ontario/Québec/Alberta).
+- Piste d'amélioration : Ajouter une recommandation chiffrée de seuils d'alerte opérationnels (ex. baisse >20 % et >X $) pour prioriser les enquêtes.
 
 **Process trace**
-- Observation : Le brief mentionne des fichiers SQL et diagrammes et l'exécution de run_checks.py, mais n'inclut pas d'historique git ni de note détaillée sur l'usage d'IA ou validation humaine.
-- Piste d'amélioration : Fournir l'historique git avec ≥3 commits significatifs et une note IA précisant outils/usage et qui a validé les sorties.
+- Observation : Le brief référence des fichiers (sql/, diagrams/) et des checks, mais ne fournit pas d'historique git ni de note IA ou d'explication sur la validation humaine des résultats.
+- Piste d'amélioration : Inclure le log de commits (≥3 commits significatifs) et une courte note IA précisant outils/usage et qui a validé manuellement les résultats.
 
 **Reproducibility**
-- Observation : Le candidat indique que la requête a été exécutée dans DuckDB et donne les chemins des scripts SQL et diagrammes (sql/analysis/... ; diagrams/...), suggérant qu'un clone peut reproduire l'analyse.
-- Piste d'amélioration : Ajouter un README pas-à-pas (prérequis, commandes exactes pour DuckDB) ou un script unique 'run_all.sh' pour permettre une reproduction en <5 minutes.
+- Observation : La validation mentionne l'exécution dans DuckDB et le script python src/run_checks.py avec 32 PASS, ce qui suggère un flux reproductible.
+- Piste d'amélioration : Documenter explicitement les étapes pour cloner et exécuter (README avec commandes exactes et versions) afin d'atteindre l'état 'clone → résultat' en <5 minutes.
 
 ## 3. Déclaration d'utilisation de l'IA
 
-> La déclaration documente bien les sessions, les usages et les validations humaines, et nomme les outils employés. En revanche elle ne mentionne pas explicitement les limites ou erreurs de l'IA ni de version/modèle précise, ce qui empêche une conformité complète.
+> La déclaration décrit clairement quand et comment l'IA a été utilisée et comment les sorties ont été vérifiées. Il manque des précisions sur les versions/modèles exacts et aucune limite ou erreur observée n'est documentée.
 
 **Sujets bien couverts dans votre déclaration :**
 
-- outils utilisés (nom + version/modèle)
 - à quelle étape l'IA a été utilisée
 - comment la sortie a été validée par l'humain
 
 **Sujets à ajouter ou expliciter pour la prochaine itération :**
 
+- outils utilisés (nom + version/modèle)
 - limites ou erreurs observées
 
 ## 4. Pistes d'action pour la prochaine itération
 
 - Reprendre la requête de la section « Preuve » pour qu'elle s'exécute sur `db/nexamart.duckdb` et qu'elle produise la forme attendue (voir pistes en section 1).
+- Compléter `ai-usage.md` en y ajoutant : outils utilisés (nom + version/modèle).
 - Compléter `ai-usage.md` en y ajoutant : limites ou erreurs observées.
 
 ---
 
 ## 5. Traçabilité
 
-- **Run ID :** `20260521T173854Z-8262142b`
+- **Run ID :** `20260521T204029Z-63dae822`
 - **Devoir :** `S02`
 - **Étudiant·e :** `thomasdescormiers`
-- **Commit analysé :** `b7357b8`
-- **Audit (côté instructeur) :** `tools/instructor/feedback_pipeline/audit/20260521T173854Z-8262142b/thomasdescormiers/`
+- **Commit analysé :** `013fb3c`
+- **Audit (côté instructeur) :** `tools/instructor/feedback_pipeline/audit/20260521T204029Z-63dae822/thomasdescormiers/`
 - **Prompts (SHA-256) :**
   - `ai_usage_grader_system` : `81cb7fdf89bda55a...`
   - `rubric_grader_system` : `505f32d1d8319d66...`
