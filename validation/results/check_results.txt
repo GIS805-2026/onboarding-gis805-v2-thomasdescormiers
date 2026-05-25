@@ -1,5 +1,5 @@
 ============================================
-NexaMart Validation: 32 PASS, 0 FAIL, 0 SKIP
+NexaMart Validation: 31 PASS, 0 FAIL, 0 SKIP
 ============================================
 
 [PASS]  TABLE_EXISTS     dim_date                                       PASS
@@ -12,8 +12,7 @@ NexaMart Validation: 32 PASS, 0 FAIL, 0 SKIP
 [PASS]  TABLE_EXISTS     fact_budget                                    PASS
 [PASS]  TABLE_EXISTS     fact_daily_inventory                           PASS
 [PASS]  TABLE_EXISTS     fact_order_pipeline                            PASS
-[PASS]  TABLE_EXISTS     bridge_customer_segment                        PASS
-[PASS]  TABLE_EXISTS     junk_order_profile                             PASS
+[PASS]  TABLE_EXISTS     dim_order_profile                              PASS
 [PASS]  TABLE_EXISTS     fact_promo_exposure                            PASS
 [PASS]  ROW_COUNT        dim_date                                       PASS
 [PASS]  ROW_COUNT        dim_product                                    PASS

@@ -1,37 +1,37 @@
-# Schema v1 - NexaMart Sales
+# Schema v1 - Ventes NexaMart
 
-## CEO question
+## Question du CEO
 
 "Quelles categories declinent dans quelles regions et pourquoi?"
 
-For S02, the repeatable analytical version is: what is revenue by product category, region and quarter, and which declines should be investigated first?
+Pour la seance S02, la version analytique reproductible est: quel est le revenu par categorie de produit, region et trimestre, et quels declins doivent etre investigues en premier?
 
-## Grain statement
+## Enonce du grain
 
-One row in `fact_sales` represents one sold order line, identified by the combination of `order_number` and `sale_line_id`.
+Une ligne dans `fact_sales` represente une ligne de commande vendue, identifiee par la combinaison de `order_number` et `sale_line_id`.
 
-This grain is the design contract for the first NexaMart star. Measures such as `quantity`, `line_total` and `gross_amount` are additive at this level and can be rolled up safely by product, store, date, customer or channel.
+Ce grain est le contrat de conception de la premiere etoile NexaMart. Les mesures comme `quantity`, `line_total` et `gross_amount` sont additives a ce niveau et peuvent etre agregees correctement par produit, magasin, date, client ou canal.
 
-## Business process
+## Processus d'affaires
 
-The modeled business process is customer sales. Each row records one product sold as part of a customer order.
+Le processus d'affaires modelise est la vente client. Chaque ligne enregistre un produit vendu dans une commande client.
 
-## Fact table
+## Table de faits
 
-`fact_sales` is the center of the star.
+`fact_sales` est le centre de l'etoile.
 
-Keys:
+Cles:
 - `date_key`
 - `product_key`
 - `store_key`
 - `customer_key`
 - `channel_key`
 
-Degenerate dimension:
+Dimensions degenerees:
 - `order_number`
 - `sale_line_id`
 
-Measures:
+Mesures:
 - `quantity`
 - `unit_price`
 - `discount_pct`
@@ -41,24 +41,26 @@ Measures:
 
 ## Dimensions
 
-`dim_date` supports analysis by year, quarter, month, week and day.
+`dim_date` permet l'analyse par annee, trimestre, mois, semaine et jour.
 
-`dim_product` supports analysis by category, subcategory, brand and product.
+`dim_product` permet l'analyse par categorie, sous-categorie, marque et produit.
 
-`dim_store` supports analysis by region, province, city and store type.
+`dim_store` permet l'analyse par region, province, ville et type de magasin.
 
-`dim_customer` supports analysis by customer identity, geography and loyalty segment.
+`dim_customer` permet l'analyse par identite client, geographie et segment de fidelite.
 
-`dim_channel` supports analysis by channel name and channel type.
+`dim_channel` permet l'analyse par nom de canal et type de canal.
 
-## Conformed dimensions
+## Dimensions conformes
 
-`dim_date`, `dim_product` and `dim_store` are conformed dimensions for the NexaMart model. They can be reused later with returns, budgets, inventory and promotion facts. This makes drill-across possible because multiple facts can be summarized using the same date, product and store definitions.
+`dim_date`, `dim_product` et `dim_store` sont des dimensions conformes pour le modele NexaMart. Elles pourront etre reutilisees plus tard avec les faits de retours, budgets, inventaire et promotions.
 
-## Validation query
+Cette reutilisation rend le drill-across possible, parce que plusieurs tables de faits peuvent etre resumees avec les memes definitions de date, produit et magasin.
 
-The proof query is stored in `sql/analysis/s02-first-answer.sql`. It aggregates `fact_sales.line_total` by `dim_product.category`, `dim_store.region` and `dim_date.quarter`, then compares 2025 Q4 with the previous quarter.
+## Requete de validation
 
-## Diagram
+La requete de preuve est stockee dans `sql/analysis/s02-first-answer.sql`. Elle agrege `fact_sales.line_total` par `dim_product.category`, `dim_store.region` et `dim_date.quarter`, puis compare le T4 2025 avec le trimestre precedent.
 
-The Mermaid source is stored in `diagrams/schema-v1.mmd`.
+## Diagramme
+
+La source Mermaid est stockee dans `diagrams/schema-v1.mmd`.

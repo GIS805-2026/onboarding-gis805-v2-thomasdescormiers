@@ -65,3 +65,16 @@
 - **Validation :** J'ai relu les fichiers generes et execute le script SQL pour verifier que l'historique etait bien preserve avec le SCD Type 2.
 - **Justification :** Cette interaction etait necessaire pour produire les livrables demandes et valider la demonstration des changements historiques.
 
+### 2026-05-25 - Seance S04
+- **Modele :** ChatGPT / Codex
+- **Prompt :** "Peux-tu m'aider a construire `dim_order_profile` et la requete `basket_pairs.sql` pour identifier les patterns de commande et les produits souvent achetes ensemble?"
+- **Resultat :** L'IA a aide a creer la logique SQL pour les profils de commande et les analyses de paniers d'achat.
+- **Validation :** J'ai execute les requetes SQL localement pour verifier les profils observes et les principales paires de produits.
+- **Justification :** Cette interaction etait utile pour valider la logique analytique et produire les scripts SQL demandes.
+
+### 2026-05-25 - Seance S04
+- **Modele :** ChatGPT / Codex
+- **Prompt :** "Peux-tu m'aider a completer les fichiers `answers/S04_executive_brief.md`, `docs/schema-v2.md`, `docs/board-briefs/s04-basket-flags.md` et mettre a jour `ai-usage.md` selon les consignes de la seance 4?"
+- **Resultat :** L'IA a aide a rediger le brief executif, mettre a jour la documentation du schema et documenter les patterns operationnels demandes.
+- **Validation :** J'ai relu les fichiers generes et valide les modifications avant leur integration dans le projet.
+- **Justification :** Cette interaction etait necessaire pour produire les livrables demandes et documenter les analyses pour le CEO.
