@@ -1,6 +1,6 @@
 # Rétroaction automatisée -- S04 (Panier d'achat et drapeaux : les patterns que l'étoile simple ne couvre pas)
 
-_Générée le 2026-05-29T13:05:10+00:00 -- Run `20260529T125432Z-0258cabb`_
+_Générée le 2026-05-29T13:05:14+00:00 -- Run `20260529T125427Z-dfc5d65b`_
 
 Ce document est produit par un pipeline reproductible (validation automatique du livrable + analyse LLM du brief et de la déclaration IA). Une revue humaine précède toujours sa publication. **À ce stade expérimental, aucune note ni étiquette de niveau n'est diffusée : l'objectif est purement formatif.**
 
@@ -24,65 +24,66 @@ FROM s03_type1_vs_type2_comparison
 
 **Pistes :**
 > Aucun bloc ```sql ... ``` détecté et l'extracteur LLM n'a trouvé aucune requête. Encadrez votre requête finale dans la section « Preuve » avec un bloc ```sql ... ``` pour fiabiliser l'auto-validation.
-> Extracteur LLM : Le brief décrit les requêtes et résultats (emplacements de fichiers) mais n'inclut aucune requête SQL explicite à extraire.
+> Extracteur LLM : Le brief décrit les requêtes et leurs résultats mais ne contient aucune requête SQL explicite à extraire.
 > Requête extraite depuis les fichiers SQL du repo (`sql\scd\type1_vs_type2_demo.sql`, `sql\templates\04_validation_check.sql`) — aucun bloc SQL inline dans le brief. Ajoutez un bloc ```sql ... ``` dans la section « Preuve » de votre brief pour fiabiliser l'auto-validation à l'avenir.
 > Tables référencées dans votre requête mais absentes de la base : `s03_type1_vs_type2_comparison`.
 > Tables disponibles dans `db/nexamart.duckdb` : `bridge_customer_segment`, `dim_channel`, `dim_customer`, `dim_date`, `dim_order_profile`, `dim_product`, `dim_store`, `fact_budget`, `fact_daily_inventory`, `fact_order_pipeline`, `fact_promo_exposure`, `fact_returns`, `fact_sales`, `junk_order_profile`, `raw_bridge_campaign_allocation`, `raw_bridge_customer_segment`, `raw_customer_changes`, `raw_customer_profile_bands`, `raw_customer_scd3_history`, `raw_dim_channel`.
 
 ## 2. Rétroaction pédagogique sur le brief
 
-> Le brief présente un modèle dimensionnel cohérent (junk dimension) et traduit les résultats en implications opérationnelles claires. Renforcez la reproductibilité et la validation technique en ajoutant requêtes complètes, gestion des cas limites et historique de commits.
+> Bon travail : le modèle propose une junk dimension bien justifiée au grain commande et la note exécutive est actionnable pour les opérations. Améliorez la traçabilité (commits, decision log) et fournissez les requêtes/README nécessaires pour la reproduction et des checks de validation plus complets.
 
 ### Observations par dimension
 
 **Model quality**
-- Observation : Le brief décrit explicitement le grain (commande vs ligne), la création de dim_order_profile comme junk dimension et justifie pourquoi order_number reste une dimension dégénérée.
-- Piste d'amélioration : Ajouter un diagramme (schéma) montrant fact_sales_enriched, dim_order_profile et les clés pour clarifier l'implémentation et les dépendances.
+- Observation : Le brief décrit clairement la junk dimension dim_order_profile, le grain (niveau commande), et donne des effectifs (461 commandes, 110 combinaisons) justifiant le design.
+- Piste d'amélioration : Ajouter un diagramme simple (schéma de la table de faits + dim_order_profile) et un exemple de ligne de faits montrant la clé profile pour clarifier l'implémentation.
 
 **Validation quality**
-- Observation : La section Validation indique les comptages du seed (461 commandes, 1326 lignes), le nombre de combinaisons observées (110) et décrit que la requête de panier évite les doublons A-B/B-A.
-- Piste d'amélioration : Fournir la requête SQL complète de validation exécutée et documenter le traitement des NULLs et des cas limites (ex. produits multi-qty, items identiques).
+- Observation : La section Validation indique les comptes du seed (461 commandes, 1326 lignes) et que la requête de panier évite les doublons A-B/B-A.
+- Piste d'amélioration : Fournir la requête SQL complète qui calcule la corrélation attendue et ajouter au moins un check sur NULLs/valeurs inattendues ou une vérification du grain.
 
 **Executive justification**
-- Observation : La Reponse executive résume les implications opérationnelles, priorise les profils à suivre (incitatif, ramassage en ligne, manutention spéciale) et propose une recommandation claire pour le suivi et la validation avec les opérations.
-- Piste d'amélioration : Ajouter un KPI chiffré (ex. impact estimé sur temps de préparation ou coût) pour renforcer la recommandation décisionnelle.
+- Observation : La réponse exécutive explique en langage métier pourquoi suivre les profils au niveau commande aide les opérations et recommande de monitorer les commandes avec manutention spéciale et ramassage en ligne.
+- Piste d'amélioration : Ajouter un chiffre clé d'impact attendu (ex. % de gain de productivité ou réduction d'erreurs) pour faciliter la priorisation par le board.
 
 **Process trace**
-- Observation : Le brief mentionne des fichiers (sql/dims/dim_order_profile.sql, sql/analysis/basket_pairs.sql, docs/profiles.md) mais ne décrit pas d'historique de commits ni de note IA détaillée.
-- Piste d'amélioration : Inclure un court git log avec ≥3 commits incrémentaux et une note IA précisant outils et validation humaine.
+- Observation : Le brief mentionne des fichiers (sql/dims/dim_order_profile.sql, sql/analysis/basket_pairs.sql, docs/profiles.md) mais n'indique pas d'historique de commits ni de note IA.
+- Piste d'amélioration : Inclure un petit journal de décisions et l'historique Git (≥3 commits avec messages) et préciser tout usage d'IA/outils et la validation humaine.
 
 **Reproducibility**
-- Observation : Le brief cite les scripts et docs nécessaires mais n'indique pas d'instructions de clonage/exécution ni l'absence de chemins codés en dur.
-- Piste d'amélioration : Fournir un README étape‑par‑étape pour cloner, lancer le seed et exécuter les checks automatiquement (DuckDB ou script SQL).
+- Observation : Le brief répertorie les scripts et la localisation des SQL, mais n'indique pas de README avec étapes de reproduction ni d'absence de chemins codés en dur.
+- Piste d'amélioration : Ajouter un README 'Runme' décrivant les étapes (clone → seed → exécuter scripts) et vérifier l'absence de chemins absolus ou de dépendances non déclarées.
 
 ## 3. Déclaration d'utilisation de l'IA
 
-> La déclaration documente bien quand et comment l'IA a été utilisée et décrit les validations humaines. Il manque toutefois une discussion des limites ou des erreurs observées et les modèles sont cités sans version précise.
+> La déclaration documente bien quand et comment l'IA a été utilisée et comment vous avez validé les sorties. Il manque cependant des précisions sur les versions/modèles exacts et aucune limite ou erreur observée de l'IA n'est décrite.
 
 **Sujets bien couverts dans votre déclaration :**
 
-- outils utilisés (nom + version/modèle)
 - à quelle étape l'IA a été utilisée
 - comment la sortie a été validée par l'humain
 
 **Sujets à ajouter ou expliciter pour la prochaine itération :**
 
+- outils utilisés (nom + version/modèle)
 - limites ou erreurs observées
 
 ## 4. Pistes d'action pour la prochaine itération
 
 - Reprendre la requête de la section « Preuve » pour qu'elle s'exécute sur db/nexamart.duckdb et qu'elle produise la forme attendue (voir pistes en section 1).
+- Compléter i-usage.md en y ajoutant : outils utilisés (nom + version/modèle).
 - Compléter i-usage.md en y ajoutant : limites ou erreurs observées.
 
 ---
 
 ## 5. Traçabilité
 
-- **Run ID :** `20260529T125432Z-0258cabb`
+- **Run ID :** `20260529T125427Z-dfc5d65b`
 - **Devoir :** `S04`
 - **Étudiant·e :** `thomasdescormiers`
 - **Commit analysé :** `2286a3d`
-- **Audit (côté instructeur) :** `tools/instructor/feedback_pipeline/audit/20260529T125432Z-0258cabb/thomasdescormiers/`
+- **Audit (côté instructeur) :** `tools/instructor/feedback_pipeline/audit/20260529T125427Z-dfc5d65b/thomasdescormiers/`
 - **Prompts (SHA-256) :**
   - `sql_extractor_system` : `90ee9e277de7a27f...`
   - `rubric_grader_system` : `505f32d1d8319d66...`
